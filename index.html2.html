@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frutalia - Pedido de Jugos Naturales</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            max-width: 300px;
+            margin: auto;
+        }
+        label, button {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Frutalia - Pedido de Jugos Naturales</h1>
+    <form id="pedidoForm">
+        <label>Nombre: <input type="text" id="nombre" required></label>
+        <label>Teléfono: <input type="tel" id="telefono" required></label>
+        
+        <label>Sabor del jugo:
+            <select id="sabor">
+                <option value="naranja">Naranja</option>
+                <option value="mango">Mango</option>
+                <option value="fresa">Fresa</option>
+                <option value="piña">Piña</option>
+            </select>
+        </label>
+        
+        <label>Tamaño:
+            <select id="tamano">
+                <option value="chico">Chico</option>
+                <option value="mediano">Mediano</option>
+                <option value="grande">Grande</option>
+            </select>
+        </label>
+        
+        <label>Comentarios adicionales:
+            <textarea id="comentarios"></textarea>
+        </label>
+        
+        <button type="submit">Enviar Pedido</button>
+    </form>
+    <p id="mensaje"></p>
+
+    <script>
+        document.getElementById("pedidoForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            
+            const pedido = {
+                nombre: document.getElementById("nombre").value,
+                telefono: document.getElementById("telefono").value,
+                sabor: document.getElementById("sabor").value,
+                tamano: document.getElementById("tamano").value,
+                comentarios: document.getElementById("comentarios").value
+            };
+
+            const response = await fetch("https://script.google.com/macros/s/AKfycbxkJS_RENiM5vnVGhYVEjpg2-T2wGzmOqIpgD_4LLL9qHkLjBmlpygYyhDlYKExc97bJw/exec", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(pedido)
+            });
+
+            const mensaje = await response.text();
+            document.getElementById("mensaje").innerText = mensaje;
+        });
+    </script>
+</body>
+</html>
